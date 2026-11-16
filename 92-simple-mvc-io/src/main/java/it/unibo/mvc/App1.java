@@ -1,19 +1,28 @@
 package it.unibo.mvc;
 
-public class App1 {
-    public App1(){
-        Controller controller = new Controller(); 
-        System.out.println(controller);
-        SimpleGUI view1 = new SimpleGUI();
-        SimpleGUIWithFileChooser view2 = new SimpleGUIWithFileChooser();  
-        view1.setController(controller);
-        view2.setController(controller);
-        controller.addView(view1); 
-        controller.addView(view2); 
-        controller.show(); 
-    }
+/**
+ * App1.
+ */
+final class App1 {
 
-    public static void main(String[] args) {
-        App1 app = new App1(); 
+    /**
+     * Previene che questa utility class venga istanziata.
+     */
+    private App1() {
+
+    }
+    /**
+     * SDSDASDSA.
+     * 
+     * @param args ASDASDA
+     */
+
+    public static void main(final String[] args) {
+        final Controller controller = new Controller();
+        final SimpleGUI view1 = new SimpleGUI(controller);
+        final SimpleGUIWithFileChooser view2 = new SimpleGUIWithFileChooser(controller);
+        controller.addView(view1);
+        controller.addView(view2);
+        controller.show();
     }
 }

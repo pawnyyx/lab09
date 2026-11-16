@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.util.Objects;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,16 +17,20 @@ import javax.swing.UnsupportedLookAndFeelException;
  * A very simple program using a graphical interface.
  *
  */
-public class SimpleGUI implements View{
+public final class SimpleGUI implements View {
 
+    private static final String TITLE = "GUI semplice";
     private static final int PROPORTIONS = 5;
+    private final Controller controller;
     private JFrame frame;
-    private Controller controller;
 
     /**
      * Creates a new SimpleGUI.
+     * 
+     * @param observer Controller for this gui
      */
-    public SimpleGUI() {
+    public SimpleGUI(final Controller observer) {
+        this.controller = observer; 
         initFrame();
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
@@ -35,7 +38,7 @@ public class SimpleGUI implements View{
         textArea.setText("Scrivi qui");
         final JButton saveButton = new JButton("Save");
         /*
-         *  Handlers. 
+         * Handlers.
          */
         saveButton.addActionListener((final ActionEvent e) -> {
             final String line = textArea.getText();
@@ -56,32 +59,28 @@ public class SimpleGUI implements View{
      */
     private void initFrame() {
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        //Sta roba serve solo per settare il look della gui, provando a usare quello di sistema. 
+        // Sta roba serve solo per settare il look della gui, provando a usare quello di
+        // sistema.
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
                 | UnsupportedLookAndFeelException e) {
-            //Se ti chiedi perchè nel secondo campo di .log c'è () -> string vedi il logger di Controller.java.
+            // Se ti chiedi perchè nel secondo campo di .log c'è () -> string vedi il logger
+            // di Controller.java.
             System.getLogger("App").log(System.Logger.Level.INFO,
                     () -> """
-                  An error accoured while setting the system LookAndFeel, using the default one.
-                  Error message: """ + e.getMessage());
+                            An error accoured while setting the system LookAndFeel, using the default one.
+                            Error message: """ + e.getMessage());
         }
-        frame = new JFrame();
+        frame = new JFrame(TITLE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize((int) (screen.getWidth() / PROPORTIONS), (int) (screen.getHeight() / PROPORTIONS));
         frame.setLocationRelativeTo(null);
     }
 
-    public void setController(final Controller observer) {
-        Objects.requireNonNull(observer, "Controller can't be null");
-        this.controller = observer;
-    }
-
-   
     @Override
     public void display() {
-        //frame.pack();
+        // frame.pack();
         frame.setVisible(true);
     }
 
@@ -92,12 +91,4 @@ public class SimpleGUI implements View{
         frame.dispose();
     }
 
-    /**
-     * Main method for this class.
-     *
-     * @param args Args of the method.
-     */
-    public static void main(final String[] args) {
-        new SimpleGUI().display();
-    }
 }

@@ -8,26 +8,26 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+
 /**
  * Application controller. Performs the I/O. NOTE: every time the fpFile changes
  * it must be also changed the String path.
  */
-//Necessario per la variabile path, è effettivamente un singular field 
-//ma è richiesto dalla consegna
+// Necessario per la variabile path, è effettivamente un singular field
+// ma è richiesto dalla consegna
 @SuppressWarnings("PMD.SingularField")
-public class Controller {
-
+public final class Controller {
     private File fpFile;
     private String path;
-    private final Set<View> views = new HashSet<>(); 
+    private final Set<View> views = new HashSet<>();
 
     /**
      * Creates a new Controller.
      */
     public Controller() {
         path = System.getProperty("user.home")
-        + System.getProperty("file.separator")
-        + Controller.class.getSimpleName() + ".txt";
+                + System.getProperty("file.separator")
+                + Controller.class.getSimpleName() + ".txt";
 
         fpFile = new File(path);
     }
@@ -72,30 +72,31 @@ public class Controller {
         try (PrintStream ps = new PrintStream(fpFile, StandardCharsets.UTF_8)) {
             ps.append(line);
         } catch (final IOException ex) {
-            //L'uso di espressioni lambda posticipa la concatenazione del messaggio a quando il logger sarà attivo. 
-            //Crea un warning altrimenti 
+            // L'uso di espressioni lambda posticipa la concatenazione del messaggio a
+            // quando il logger sarà attivo.
+            // Crea un warning altrimenti
             System.getLogger("App").log(System.Logger.Level.INFO,
-            () -> "An error occurred while writing on file: " + ex.getMessage());
+                    () -> "An error occurred while writing on file: " + ex.getMessage());
         }
     }
 
     /**
      * Adds a view and sets hsi controller.
+     * 
      * @param gui view to add.
      */
-    public void addView(View gui){
-        Objects.requireNonNull(gui); 
-        views.add(gui); 
+    public void addView(final View gui) {
+        Objects.requireNonNull(gui);
+        views.add(gui);
     }
 
     /**
      * bababab.
      */
-    public void show(){
-        for (View view : views) {
-            view.display(); 
+    public void show() {
+        for (final View view : views) {
+            view.display();
         }
-        System.out.println(path);       
     }
 
 }

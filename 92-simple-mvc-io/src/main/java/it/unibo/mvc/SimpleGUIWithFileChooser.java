@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.util.Objects;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -18,18 +17,22 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  * A very simple program using a graphical interface.
- *
+ * 
  */
-public class SimpleGUIWithFileChooser implements View{
+public final class SimpleGUIWithFileChooser implements View {
 
+    private static final String TITLE = "GUI con file chooser";
     private static final int PROPORTIONS = 5;
+    private final Controller controller;
     private JFrame frame;
-    private Controller controller;
 
     /**
      * Creates a new SimpleGUI.
+     * 
+     * @param observer Controller for this gui
      */
-    public SimpleGUIWithFileChooser() {
+    public SimpleGUIWithFileChooser(final Controller observer) {
+        this.controller = observer; 
         initFrame();
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
@@ -38,14 +41,15 @@ public class SimpleGUIWithFileChooser implements View{
         final JButton saveButton = new JButton("Save");
         final JPanel upperPanel = new JPanel();
         upperPanel.setLayout(new BorderLayout());
- 
+
         final JTextField textField = new JTextField(controller.getPath());
         textField.setEditable(false);
 
-        final JButton browseButton = new JButton("Browse..."); 
-        
+        final JButton browseButton = new JButton("Browse...");
+        upperPanel.add(browseButton, BorderLayout.SOUTH); 
+        upperPanel.add(textField, BorderLayout.CENTER); 
         /*
-         *  Handlers. 
+         * Handlers.
          */
         saveButton.addActionListener((final ActionEvent e) -> {
             final String line = textArea.getText();
@@ -57,21 +61,22 @@ public class SimpleGUIWithFileChooser implements View{
         });
 
         browseButton.addActionListener((final ActionEvent e) -> {
-            JFileChooser fileChooser = new JFileChooser(); 
+            final JFileChooser fileChooser = new JFileChooser();
             final int result = fileChooser.showSaveDialog(frame);
-            //Questo switch funziona come il classico con case <caseValue>: break;
+            // Questo switch funziona come il classico con case <caseValue>: break;
             switch (result) {
                 case JFileChooser.APPROVE_OPTION -> {
                     controller.setFpFile(fileChooser.getSelectedFile());
                     textField.setText(controller.getPath());
                 }
                 case JFileChooser.CANCEL_OPTION -> {
-                    //Does nothing
+                    // Does nothing
                 }
                 default -> JOptionPane.showMessageDialog(fileChooser,
                         "An error occurred while chosing the file");
             }
-                    });
+        });
+        canvas.add(upperPanel, BorderLayout.NORTH); 
         canvas.add(saveButton, BorderLayout.SOUTH);
         canvas.add(textArea, BorderLayout.CENTER);
         frame.setContentPane(canvas);
@@ -82,32 +87,28 @@ public class SimpleGUIWithFileChooser implements View{
      */
     private void initFrame() {
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        //Sta roba serve solo per settare il look della gui, provando a usare quello di sistema. 
+        // Sta roba serve solo per settare il look della gui, provando a usare quello di
+        // sistema.
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
                 | UnsupportedLookAndFeelException e) {
-            //Se ti chiedi perchè nel secondo campo di .log c'è () -> string vedi il logger di Controller.java.
+            // Se ti chiedi perchè nel secondo campo di .log c'è () -> string vedi il logger
+            // di Controller.java.
             System.getLogger("App").log(System.Logger.Level.INFO,
                     () -> """
-                  An error accoured while setting the system LookAndFeel, using the default one.
-                  Error message: """ + e.getMessage());
+                            An error accoured while setting the system LookAndFeel, using the default one.
+                            Error message: """ + e.getMessage());
         }
-        frame = new JFrame();
+        frame = new JFrame(TITLE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize((int) (screen.getWidth() / PROPORTIONS), (int) (screen.getHeight() / PROPORTIONS));
         frame.setLocationRelativeTo(null);
     }
 
-    public void setController(final Controller observer) {
-        System.out.println("in una view, ecco controller: " + controller);
-        Objects.requireNonNull(observer, "Controller can't be null");
-        this.controller = observer;
-    }
-
-    @Override 
+    @Override
     public void display() {
-        //frame.pack();
+        // frame.pack();
         frame.setVisible(true);
     }
 
@@ -118,12 +119,4 @@ public class SimpleGUIWithFileChooser implements View{
         frame.dispose();
     }
 
-    /**
-     * Main method for this class.
-     *
-     * @param args Args of the method.
-     */
-    public static void main(final String[] args) {
-        new SimpleGUIWithFileChooser().display();
-    }
 }
