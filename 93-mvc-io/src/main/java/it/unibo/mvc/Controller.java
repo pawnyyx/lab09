@@ -6,4 +6,27 @@ package it.unibo.mvc;
  */
 public interface Controller {
 
+    /**
+     * Adds one view to the controller, it is designed to handle one view only.
+     * 
+     * @param gui The view to add.
+     */
+    void addView(SimpleGUI gui); 
+
+    /**
+     * Prints a string on the std out stream.
+     * 
+     * @param line The line to print.
+     */
+    void print(String line); 
+
+    /**
+     * Terminates the gui safely. 
+     */
+    void quit(); 
+
+    /**
+     * Display's the view.
+     */
+    void display(); 
 }
