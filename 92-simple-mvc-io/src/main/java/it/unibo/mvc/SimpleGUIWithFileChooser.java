@@ -23,7 +23,6 @@ public final class SimpleGUIWithFileChooser implements View {
 
     private static final String TITLE = "GUI con file chooser";
     private static final int PROPORTIONS = 5;
-    private final Controller controller;
     private JFrame frame;
 
     /**
@@ -32,7 +31,6 @@ public final class SimpleGUIWithFileChooser implements View {
      * @param observer Controller for this gui
      */
     public SimpleGUIWithFileChooser(final Controller observer) {
-        this.controller = observer; 
         initFrame();
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
@@ -42,7 +40,7 @@ public final class SimpleGUIWithFileChooser implements View {
         final JPanel upperPanel = new JPanel();
         upperPanel.setLayout(new BorderLayout());
 
-        final JTextField textField = new JTextField(controller.getPath());
+        final JTextField textField = new JTextField(observer.getPath());
         textField.setEditable(false);
 
         final JButton browseButton = new JButton("Browse...");
@@ -50,24 +48,27 @@ public final class SimpleGUIWithFileChooser implements View {
         upperPanel.add(textField, BorderLayout.CENTER); 
         /*
          * Handlers.
+         * Ho usato le funzioni lambda per non implementare tutta la classe astratta con new ActionListener(){ ecc... }
          */
         saveButton.addActionListener((final ActionEvent e) -> {
             final String line = textArea.getText();
             if (!line.isBlank()) {
-                controller.writeOnFile(line);
+                observer.writeOnFile(line);
             } else {
                 JOptionPane.showMessageDialog(frame, "Cannot write blank line on the file");
             }
         });
 
         browseButton.addActionListener((final ActionEvent e) -> {
+            //Nota: JFileChooser non va collegato a nessun componente perchè è una specie di finestra
+            //L'unico collegamento opzionale è in showSaveDialog che semplicemente gli dice rispetto a cosa centrarsi
             final JFileChooser fileChooser = new JFileChooser();
             final int result = fileChooser.showSaveDialog(frame);
             // Questo switch funziona come il classico con case <caseValue>: break;
             switch (result) {
                 case JFileChooser.APPROVE_OPTION -> {
-                    controller.setFpFile(fileChooser.getSelectedFile());
-                    textField.setText(controller.getPath());
+                    observer.setFpFile(fileChooser.getSelectedFile());
+                    textField.setText(observer.getPath());
                 }
                 case JFileChooser.CANCEL_OPTION -> {
                     // Does nothing

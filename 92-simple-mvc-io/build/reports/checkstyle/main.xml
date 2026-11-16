@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="14.3.0">
-<file name="C:\Users\federico.lotito\Documents\lab09\92-simple-mvc-io\src\main\java\it\unibo\mvc\App1.java">
+<file name="C:\Users\feder\Documents\lab09\92-simple-mvc-io\src\main\java\it\unibo\mvc\App1.java">
 </file>
-<file name="C:\Users\federico.lotito\Documents\lab09\92-simple-mvc-io\src\main\java\it\unibo\mvc\Controller.java">
+<file name="C:\Users\feder\Documents\lab09\92-simple-mvc-io\src\main\java\it\unibo\mvc\Controller.java">
 </file>
-<file name="C:\Users\federico.lotito\Documents\lab09\92-simple-mvc-io\src\main\java\it\unibo\mvc\SimpleGUI.java">
+<file name="C:\Users\feder\Documents\lab09\92-simple-mvc-io\src\main\java\it\unibo\mvc\SimpleGUI.java">
 </file>
-<file name="C:\Users\federico.lotito\Documents\lab09\92-simple-mvc-io\src\main\java\it\unibo\mvc\SimpleGUIWithFileChooser.java">
+<file name="C:\Users\feder\Documents\lab09\92-simple-mvc-io\src\main\java\it\unibo\mvc\SimpleGUIWithFileChooser.java">
 </file>
-<file name="C:\Users\federico.lotito\Documents\lab09\92-simple-mvc-io\src\main\java\it\unibo\mvc\View.java">
+<file name="C:\Users\feder\Documents\lab09\92-simple-mvc-io\src\main\java\it\unibo\mvc\View.java">
 </file>
 </checkstyle>

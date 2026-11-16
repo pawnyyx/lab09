@@ -21,7 +21,6 @@ public final class SimpleGUI implements View {
 
     private static final String TITLE = "GUI semplice";
     private static final int PROPORTIONS = 5;
-    private final Controller controller;
     private JFrame frame;
 
     /**
@@ -30,7 +29,12 @@ public final class SimpleGUI implements View {
      * @param observer Controller for this gui
      */
     public SimpleGUI(final Controller observer) {
-        this.controller = observer; 
+        /*
+        Allora zi premessa importante: il controller non viene assegnato ad un campo della classe perchè alza un warning,
+        quindi viene usato direttamente, senza assegnazione. 
+        Questo ovviamente è una limitazione perchè se lo dovessi usare in un altro metodo non si puo' fare 
+        ma per questa roba è anche troppo pulito e non ho trovato altra soluzione.
+        */
         initFrame();
         final JPanel canvas = new JPanel();
         canvas.setLayout(new BorderLayout());
@@ -43,7 +47,7 @@ public final class SimpleGUI implements View {
         saveButton.addActionListener((final ActionEvent e) -> {
             final String line = textArea.getText();
             if (!line.isBlank()) {
-                controller.writeOnFile(line);
+                observer.writeOnFile(line);
             } else {
                 JOptionPane.showMessageDialog(frame, "Cannot write blank line on the file");
             }
